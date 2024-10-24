@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$UWU NFT Marketplace - Web Core</title>
+    <style>
+        body {
+            background-color: #ffe6f2;
+            font-family: "MS Sans Serif", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #330033;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff99cc, #ff66b2);
+            padding: 20px;
+            border: 3px solid #990066;
+            border-radius: 8px;
+            box-shadow: 5px 5px 0px #990066;
+        }
+
+        .header h1 {
+            color: #330033;
+            text-shadow: 2px 2px #ffcccc;
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .stats-bar {
+            background: #ffffff;
+            border: 2px solid #990066;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+            border-radius: 5px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item span {
+            font-weight: bold;
+            color: #990066;
+        }
+
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .nft-card {
+            background: #ffffff;
+            border: 2px solid #990066;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.2s;
+            box-shadow: 3px 3px 0px #990066;
+        }
+
+        .nft-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 200px;
+            background: #ffcccc;
+            margin-bottom: 10px;
+            border: 2px solid #990066;
+        }
+
+        .nft-title {
+            font-weight: bold;
+            margin: 10px 0;
+            color: #660033;
+        }
+
+        .nft-price {
+            color: #990066;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .buy-button {
+            background: linear-gradient(45deg, #ff99cc, #ff66b2);
+            border: 2px solid #990066;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #330033;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .buy-button:hover {
+            background: linear-gradient(45deg, #ff66b2, #ff3399);
+            transform: scale(1.05);
+        }
+
+        .filters {
+            background: #ffffff;
+            border: 2px solid #990066;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .filter-option {
+            margin: 0 10px;
+            padding: 5px 10px;
+            border: 1px solid #990066;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .filter-option:hover {
+            background: #ffcccc;
+        }
+
+        .connect-wallet {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ffffff;
+            border: 2px solid #990066;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            box-shadow: 3px 3px 0px #990066;
+        }
+
+        .connect-wallet:hover {
+            background: #ffcccc;
+        }
+    </style>
+</head>
+<body>
+    <button class="connect-wallet">Connect Wallet</button>
+    
+    <div class="container">
+        <header class="header">
+            <h1>$UWU NFT Marketplace</h1>
+            <p>✧･ﾟ: *✧･ﾟ:* Trade Magical NFTs *:･ﾟ✧*:･ﾟ✧</p>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div>Floor Price</div>
+                <span>45 $UWU</span>
+            </div>
+            <div class="stat-item">
+                <div>24h Volume</div>
+                <span>12,450 $UWU</span>
+            </div>
+            <div class="stat-item">
+                <div>Total Listed</div>
+                <span>342</span>
+            </div>
+            <div class="stat-item">
+                <div>Holders</div>
+                <span>1,234</span>
+            </div>
+        </div>
+
+        <div class="filters">
+            <span class="filter-option">All</span>
+            <span class="filter-option">Rare</span>
+            <span class="filter-option">Super Rare</span>
+            <span class="filter-option">Legendary</span>
+            <span class="filter-option">Price: Low to High</span>
+            <span class="filter-option">Price: High to Low</span>
+        </div>
+
+        <div class="nft-grid">
+            <div class="nft-card">
+                <div class="nft-image">
+                    <img src="/api/placeholder/200/200" alt="NFT Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="nft-title">Magical Cat #123</div>
+                <div class="nft-price">50 $UWU</div>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="nft-card">
+                <div class="nft-image">
+                    <img src="/api/placeholder/200/200" alt="NFT Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="nft-title">Pixelated Dream #456</div>
+                <div class="nft-price">75 $UWU</div>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="nft-card">
+                <div class="nft-image">
+                    <img src="/api/placeholder/200/200" alt="NFT Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="nft-title">Cyber Whale #789</div>
+                <div class="nft-price">120 $UWU</div>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="nft-card">
+                <div class="nft-image">
+                    <img src="/api/placeholder/200/200" alt="NFT Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="nft-title">Web3 Angel #321</div>
+                <div class="nft-price">90 $UWU</div>
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add click handlers for the filter options
+        document.querySelectorAll('.filter-option').forEach(filter => {
+            filter.addEventListener('click', () => {
+                document.querySelectorAll('.filter-option').forEach(f => f.style.background = '#ffffff');
+                filter.style.background = '#ffcccc';
+            });
+        });
+
+        // Add click handler for connect wallet button
+        document.querySelector('.connect-wallet').addEventListener('click', () => {
+            alert('Wallet connection feature would be implemented here');
+        });
+
+        // Add click handlers for buy buttons
+        document.querySelectorAll('.buy-button').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Purchase feature would be implemented here');
+            });
+        });
+    </script>
+</body>
+</html>
