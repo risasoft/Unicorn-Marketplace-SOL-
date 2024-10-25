@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UWU Ecosystem - NFT Collections</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #7c3aed;
+            --secondary-color: #c084fc;
+            --accent-color: #ff69b4;
+            --uwu-color: #ffd4e5;
+            --uwupunk-color: #84cc16;
+            --nuddies-color: #fb923c;
+            --unigirls-color: #ec4899;
+            --unipuppets-color: #06b6d4;
+            --background-color: #0f172a;
+            --card-background: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            padding: 1.5rem 0;
+            position: relative;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        header h1 {
+            color: white;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #c084fc, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .collections-nav {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 0;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .collections-nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .collections-nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(51, 65, 85, 0.5);
+        }
+
+        .collection-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .collections-nav ul li a:hover {
+            background: rgba(71, 85, 105, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .connect-wallet {
+            position: fixed;
+            top: 1.5rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #c084fc, #ec4899);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 101;
+        }
+
+        .connect-wallet:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        .collection-section {
+            margin: 4rem 0;
+            border-radius: 1.5rem;
+            background: var(--card-background);
+            overflow: hidden;
+        }
+
+        .collection-banner {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .collection-header {
+            padding: 2rem;
+            text-align: center;
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .collection-header img {
+            width: 120px;
+            height: 120px;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            border: 3px solid var(--card-background);
+        }
+
+        .collection-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #c084fc, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .collection-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.3);
+        }
+
+        .stat-item {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            border: 1px solid #2d3748;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: #c084fc;
+        }
+
+        .stat-item h3 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            background: linear-gradient(to right, #c084fc, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .item {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #2d3748;
+        }
+
+        .item:hover {
+            transform: translateY(-10px);
+            border-color: #c084fc;
+            box-shadow: 0 0 30px rgba(192, 132, 252, 0.1);
+        }
+
+        .item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .item-content {
+            padding: 1.5rem;
+        }
+
+        .collection-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .uwu-tag { background: var(--uwu-color); color: #1e293b; }
+        .uwupunk-tag { background: var(--uwupunk-color); color: #1e293b; }
+        .nuddies-tag { background: var(--nuddies-color); color: #1e293b; }
+        .unigirls-tag { background: var(--unigirls-color); color: white; }
+        .unipuppets-tag { background: var(--unipuppets-color); color: #1e293b; }
+
+        .item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .traits {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .trait {
+            background: rgba(51, 65, 85, 0.5);
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .sol-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #c084fc;
+        }
+
+        .usd-price {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .buy-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #c084fc, #ec4899);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .buy-btn:hover {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        .rank {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            color: #c084fc;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .collections-nav ul {
+                gap: 0.5rem;
+            }
+
+            .connect-wallet {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>UWU Ecosystem</h1>
+    </header>
+    
+    <nav class="collections-nav">
+        <ul>
+            <li>
+                <a href="#uwu">
+                    <img src="/api/placeholder/24/24" alt="UWU" class="collection-icon" />
+                    UWU
+                </a>
+            </li>
+            <li>
+                <a href="#uwupunk">
+                    <img src="/api/placeholder/24/24" alt="UWUPunk" class="collection-icon" />
+                    UWUPunk
+                </a>
+            </li>
+            <li>
+                <a href="#nuddies">
+                    <img src="/api/placeholder/24/24" alt="Nuddies" class="collection-icon" />
+                    Nuddies
+                </a>
+            </li>
+            <li>
+                <a href="#unigirls">
+                    <img src="/api/placeholder/24/24" alt="UniGirls" class="collection-icon" />
+                    UniGirls
+                </a>
+            </li>
+            <li>
+                <a href="#unipuppets">
+                    <img src="/api/placeholder/24/24" alt="UniPuppets" class="collection-icon" />
+                    UniPuppets
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <button class="connect-wallet">
+        <i class="fas fa-wallet"></i> Connect Wallet
+    </button>
+
+    <div class="container">
+        <!-- UWU Collection -->
+        <section id="uwu" class="collection-section">
+            <img src="/api/placeholder/1440/240" alt="UWU Banner" class="collection-banner">
+            <div class="collection-header">
+                <img src="/api/placeholder/120/120" alt="UWU Collection" />
+                <h2>UWU</h2>
+                <p>Original UWU collection featuring adorable characters in the Solana ecosystem.</p>
+            </div>
+
+            <section class="stats">
+                <div class="stat-item">
+                    <h3>Floor Price</h3>
+                    <p>2.5 SOL</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24h Volume</h3>
+                    <p>145 SOL</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Total Listed</h3>
+                    <p>156</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Holders</h3>
+                    <p>2.4K</p>
+                </div>
+            </section>
+
+            <div class="grid">
+                <div class="item">
+                    <img src="/api/placeholder/400/300" alt="UWU #1234">
+                    <div class="item-content">
+                        <span class="collection-tag uwu-tag">UWU</span>
+                        <h3>UWU #1234</h3>
+                        <div class="traits">
+                            <span class="trait">Background: Starry</span>
+                            <span class="trait">Expression: Happy</span>
+                            <span class="trait">Accessory: Crown</span>
+                        </div>
+                        <div class="price">
+                            <span class="sol-price">2.85 SOL</span>
+                            <span class="usd-price">≈ $285.00</span>
+                        </div>
+                        <button class="buy-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+                <!-- Add more UWU items here -->
+            </div>
+        </section>
+
+        <!-- Repeat similar sections for UWUPunk, Nuddies, UniGirls, and UniPuppets -->
+        <!-- Each section would follow the same structure but with unique styling and content -->
+
+    </div>
+</body>
+</html>
