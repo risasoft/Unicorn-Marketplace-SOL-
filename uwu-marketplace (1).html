@@ -6,12 +6,15 @@
     <title>$UWU NFT Marketplace - Web Core</title>
     <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <style>
         :root {
             --bg-color: #fad0e4;
             --text-color: #330033;
             --header-bg: linear-gradient(45deg, #ff99cc, #ff66b2);
-            --card-bg: #ffffff;
+            --card-bg: #fad0e4;
             --border-color: #990066;
         }
 
@@ -27,6 +30,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
         }
 
         .header {
@@ -66,32 +70,42 @@
         }
 
         .nft-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
             margin-top: 20px;
         }
 
         .nft-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
+            background: #f2b2ff;
+            border: 2px solid #990066;
             padding: 15px;
             border-radius: 8px;
             text-align: center;
             transition: transform 0.2s;
-            box-shadow: 3px 3px 0px var(--border-color);
-        }
-
-        .nft-card:hover {
-            transform: translateY(-5px);
+            box-shadow: 3px 3px 0px #990066;
+            width: calc(25% - 20px);
+            min-width: 200px;
+            max-width: 300px;
         }
 
         .nft-image {
             width: 100%;
-            height: 200px;
+            padding-top: 100%; /* This creates a 1:1 aspect ratio */
+            position: relative;
             background: #ffcccc;
             margin-bottom: 10px;
-            border: 2px solid var(--border-color);
+            border: 2px solid #990066;
+        }
+
+        .nft-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .nft-title {
@@ -146,17 +160,31 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
+            background: #ffbfd9;
+            border: 2px solid #990066;
             padding: 10px 20px;
             cursor: pointer;
             font-weight: bold;
             border-radius: 5px;
-            box-shadow: 3px 3px 0px var(--border-color);
+            box-shadow: 3px 3px 0px #990066;
+            transition: all 0.2s;
+            z-index: 1000; /* Ensure the button is always on top */
         }
 
         .connect-wallet:hover {
             background: #ffcccc;
+            transform: translateY(-2px);
+            box-shadow: 5px 5px 0px #990066;
+        }
+
+        /* Responsive adjustments for the connect wallet button */
+        @media (max-width: 768px) {
+            .connect-wallet {
+                position: static;
+                display: block;
+                margin: 20px auto;
+                width: fit-content;
+            }
         }
 
         .mode-toggle {
@@ -183,13 +211,13 @@
 
         .mode-button.active {
             background-color: var(--border-color);
-            color: white;
+            color: rgb(255, 184, 231);
         }
 
         /* Dark mode styles */
         body.dark-mode {
             --bg-color: #1a1a1a;
-            --text-color: #ffffff;
+            --text-color: #333333;
             --header-bg: linear-gradient(45deg, #4d004d, #660066);
             --card-bg: #333333;
             --border-color: #660066;
@@ -222,6 +250,58 @@
             margin-bottom: 20px;
             border-radius: 5px;
         }
+
+        .loading {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff66b2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #sort-options {
+            margin-bottom: 20px;
+            padding: 5px;
+            border: 2px solid #990066;
+            border-radius: 5px;
+            background-color: #ffc0d3;
+            color: #330033;
+        }
+
+        @media (max-width: 768px) {
+            .nft-grid {
+                grid-template-columns: 1fr;
+            }
+            .buy-button {
+                padding: 6px 10px;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .nft-card {
+                width: calc(33.33% - 20px);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .nft-card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nft-card {
+                width: calc(100% - 20px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -237,12 +317,54 @@
             <!-- Stats will be dynamically inserted here -->
         </div>
 
-        <div class="filters" id="filters">
-            <!-- Filters will be dynamically inserted here -->
+        <div class="filters">
+            <select id="sort-options">
+                <option value="price">Price</option>
+                <option value="rarity">Rarity</option>
+                <option value="collection">Collection</option>
+            </select>
+            <span class="filter-option">All</span>
+            <span class="filter-option">Rare</span>
+            <span class="filter-option">Super Rare</span>
+            <span class="filter-option">Legendary</span>
         </div>
 
-        <div class="nft-grid" id="nft-grid">
-            <!-- NFT cards will be dynamically inserted here -->
+        <div class="nft-grid">
+            <div class="nft-card">
+                <div class="nft-image">
+                    <img src="/api/placeholder/200/200" alt="NFT Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="nft-title">UwUPunk #123</div>
+                <div class="nft-price">50 $UWU</div>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="nft-card">
+                <div class="nft-image">
+                    <img src="/api/placeholder/200/200" alt="NFT Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="nft-title">Unicornio #456</div>
+                <div class="nft-price">75 $UWU</div>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="nft-card">
+                <div class="nft-image">
+                    <img src="/api/placeholder/200/200" alt="NFT Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="nft-title">UniPuppets #789</div>
+                <div class="nft-price">120 $UWU</div>
+                <button class="buy-button">Buy Now</button>
+            </div>
+
+            <div class="nft-card">
+                <div class="nft-image">
+                    <img src="/api/placeholder/200/200" alt="NFT Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="nft-title">Nuddies #321</div>
+                <div class="nft-price">90 $UWU</div>
+                <button class="buy-button">Buy Now</button>
+            </div>
         </div>
     </div>
 
@@ -254,9 +376,48 @@
 
     <audio id="pop-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-plastic-bubble-click-1124.mp3"></audio>
 
+    <script type="text/babel">
+        const NFTCard = ({ title, price, imageUrl }) => {
+            const handleBuy = () => {
+                alert('Purchase feature would be implemented here');
+            };
+
+            return (
+                <div className="nft-card">
+                    <div className="nft-image">
+                        <img src={imageUrl} alt={title} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                    </div>
+                    <div className="nft-title">{title}</div>
+                    <div className="nft-price">{price} $UWU</div>
+                    <button className="buy-button" onClick={handleBuy}>Buy Now</button>
+                </div>
+            );
+        };
+
+        const NFTGrid = () => {
+            const nfts = [
+                { id: 1, title: "Magical Cat #123", price: 50, imageUrl: "/api/placeholder/200/200" },
+                { id: 2, title: "Pixelated Dream #456", price: 75, imageUrl: "/api/placeholder/200/200" },
+                { id: 3, title: "Cyber Whale #789", price: 120, imageUrl: "/api/placeholder/200/200" },
+                { id: 4, title: "Web3 Angel #321", price: 90, imageUrl: "/api/placeholder/200/200" }
+            ];
+
+            return (
+                <div className="nft-grid">
+                    {nfts.map(nft => (
+                        <NFTCard key={nft.id} {...nft} />
+                    ))}
+                </div>
+            );
+        };
+
+        ReactDOM.render(<NFTGrid />, document.querySelector('.nft-grid'));
+    </script>
+
     <script>
         const MORALIS_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjhkOWY4OTg2LTA4MjYtNGEzMC05Y2FlLTA2MDliYjI1Yzc3NiIsIm9yZ0lkIjoiMjE0MzQ5IiwidXNlcklkIjoiMjE0MDMzIiwidHlwZUlkIjoiMjM0NzVmMTMtMjUxNi00YjY0LWE4NzItY2Y4OGZiMzZhMWFiIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3Mjk4MjQ3MjYsImV4cCI6NDg4NTU4NDcyNn0.OQiIXBE_hIBRYwTAo1l1Bu4g8K94z_9ArzILqm9r008";
         const SOLANA_ADDRESS = "6MhP1cv3f5GtdcN3haXfveSqbFZJ58TiPoUgQrbzn9Js";
+        const preferredCollections = ["UWU Punk", "UWU Banners", "UniPuppets", "UniGirls"];
 
         async function initMoralis() {
             await Moralis.start({
@@ -277,29 +438,81 @@
             }
         }
 
-        async function displayNFTs() {
-            const nfts = await fetchNFTs();
+        function filterByCollection(nfts) {
+            return nfts.filter(nft => preferredCollections.includes(nft.collection));
+        }
+
+        function sortNFTs(nfts, criterion) {
+            return nfts.sort((a, b) => {
+                if (criterion === 'price') return (a.price || 0) - (b.price || 0);
+                if (criterion === 'rarity') return (b.rarity || 0) - (a.rarity || 0);
+                if (criterion === 'collection') {
+                    return preferredCollections.indexOf(a.collection) - preferredCollections.indexOf(b.collection);
+                }
+                return 0;
+            });
+        }
+
+        async function displayNFTs(sortCriterion = 'collection') {
             const nftGrid = document.getElementById('nft-grid');
+            nftGrid.innerHTML = '<div class="loading"></div>';
+
+            let nfts = await fetchNFTs();
+            nfts = filterByCollection(nfts);
+            nfts = sortNFTs(nfts, sortCriterion);
+
             nftGrid.innerHTML = nfts.map(nft => `
                 <div class="nft-card">
                     <div class="nft-image">
                         <img src="${nft.metadata?.image || '/api/placeholder/200/200'}" alt="${nft.name}" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="nft-title">${nft.name || 'Unnamed NFT'}</div>
-                    <div class="nft-price">Price not available</div>
+                    <div class="nft-price">${nft.price ? nft.price + ' $UWU' : 'Price not available'}</div>
+                    <div class="nft-collection">${nft.collection || 'Unknown Collection'}</div>
                     <button class="buy-button" data-nft-id="${nft.mint}">Buy Now</button>
+                    <button class="view-history-button" data-nft-id="${nft.mint}">View History</button>
                 </div>
             `).join('');
 
-            // Add click handlers for buy buttons
+            addEventListeners();
+        }
+
+        function addEventListeners() {
             document.querySelectorAll('.buy-button').forEach(button => {
                 button.addEventListener('click', () => {
                     alert(`Purchase feature would be implemented here for NFT: ${button.dataset.nftId}`);
                 });
             });
+
+            document.querySelectorAll('.view-history-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    fetchTransactionHistory(button.dataset.nftId);
+                });
+            });
         }
 
-        // Initialize Moralis and display NFTs
+        async function fetchTransactionHistory(nftId) {
+            // This is a placeholder. In a real implementation, you would fetch the actual transaction history.
+            alert(`Transaction history for NFT ${nftId} would be displayed here.`);
+        }
+
+        document.getElementById('sort-options').addEventListener('change', (event) => {
+            displayNFTs(event.target.value);
+        });
+
+        document.querySelectorAll('.filter-option').forEach(filter => {
+            filter.addEventListener('click', () => {
+                document.querySelectorAll('.filter-option').forEach(f => f.style.background = '#ffffff');
+                filter.style.background = '#ffcccc';
+                // Implement filtering logic here
+            });
+        });
+
+        document.querySelector('.connect-wallet').addEventListener('click', () => {
+            alert('Wallet connection feature would be implemented here');
+        });
+
+        // Initialize and display NFTs
         initMoralis().then(() => {
             displayNFTs();
         });
