@@ -1,0 +1,56 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.tabSize": 2,
+		"editor.insertSpaces": true,
+		"files.eol": "\n",
+		"typescript.tsdk": "node_modules/typescript/lib",
+		"typescript.enablePromptUseWorkspaceTsdk": true
+	},
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"ms-vscode.vscode-typescript-tslint-plugin",
+			"bradlc.vscode-tailwindcss",
+			"formulahendry.auto-rename-tag",
+			"naumovs.color-highlight",
+			"dsznajder.es7-react-js-snippets",
+			"eamodio.gitlens",
+			"pkief.material-icon-theme",
+			"christian-kohler.path-intellisense",
+			"wayou.vscode-todo-highlight"
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"type": "chrome",
+				"request": "launch",
+				"name": "Launch Chrome against localhost",
+				"url": "http://localhost:3000",
+				"webRoot": "${workspaceFolder}"
+			},
+			{
+				"type": "node",
+				"request": "launch",
+				"name": "Jest All",
+				"program": "${workspaceFolder}/node_modules/.bin/jest",
+				"args": ["--runInBand"],
+				"console": "integratedTerminal",
+				"internalConsoleOptions": "neverOpen",
+				"disableOptimisticBPs": true,
+				"windows": {
+					"program": "${workspaceFolder}/node_modules/jest/bin/jest"
+				}
+			}
+		]
+	}
+}
