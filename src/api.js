@@ -39,12 +39,13 @@
         body: '{\n  "query": "query Instrument($slug: String!) {\n  instrumentTV2(slug: $slug) {\n    ...ReducedInstrument\n    __typename\n  }\n}\n\nfragment ReducedInstrument on InstrumentTV2 {\n\n  statsV2 {\n    ...CollectionStatsV2\n  }\n\n}\n\nfragment CollectionStatsV2 on CollectionStatsV2 {\n  currency\n  buyNowPrice\n  sellNowPrice\n  numListed\n  numMints\n  floor1h\n  floor24h\n  floor7d\n  sales1h\n  sales24h\n  sales7d\n  salesAll\n  volume1h\n  volume24h\n  volume7d\n  volumeAll\n  pctListed\n  marketCap\n}",\n  "operationName": "Instrument",\n  "variables": {\n    "slug": "${slug}"\n  }\n}'
       };
       
-    const result =  await fetch('https://graphql.tensor.trade/graphql', options)
+    const result = fetch('https://graphql.tensor.trade/graphql', options)
     .then(response => response.json())
-    .then(response => console.log(response))
     .catch(err => console.error(err));
 
     return result
   }
 
-  export {getNftPrices}
+  const getCollections = () => ['uwupunk']
+
+  export {getCollections, getNftPrices}
